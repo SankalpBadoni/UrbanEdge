@@ -1,8 +1,1 @@
-# React + Vite
-
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Urban Edge is a modern real estate platform that helps users locate and explore properties in their area. With an intuitive interface and essential filters, users can search based on location, price range, and type (rent/buy). The site provides detailed property listings with image previews, price information, and easy navigation. Built using React, Tailwind CSS, and Leaflet for map integration, Urban Edge aims to simplify the property discovery process, making it easy and efficient for users to find their ideal real estate options.
