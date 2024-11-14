@@ -7,6 +7,7 @@ import Layout from './Pages/Layout/Layout';
 import ListPage from './Pages/ListPage/ListPage';
 import SinglePage from './Pages/SinglePage/SinglePage';
 import ProfilePage from './Pages/ProfilePage/ProfilePage';
+import About from './Pages/About/About';
 
 function App() {
   const router = createBrowserRouter([
@@ -30,7 +31,11 @@ function App() {
         {
           path: "/profile",
           element: <ProfilePage/>
-        }  
+        } ,
+        {
+          path: "/about",
+          element: <About/>
+        } 
       ]
     },
   ]);
