@@ -8,6 +8,7 @@ import ListPage from './Pages/ListPage/ListPage';
 import SinglePage from './Pages/SinglePage/SinglePage';
 import ProfilePage from './Pages/ProfilePage/ProfilePage';
 import About from './Pages/About/About';
+import Contact from './Pages/Contact/Contact';
 
 function App() {
   const router = createBrowserRouter([
@@ -35,7 +36,11 @@ function App() {
         {
           path: "/about",
           element: <About/>
-        } 
+        },
+        {
+          path: "/contacts",
+          element: <Contact/>
+        }
       ]
     },
   ]);
