@@ -9,6 +9,7 @@ import SinglePage from './Pages/SinglePage/SinglePage';
 import ProfilePage from './Pages/ProfilePage/ProfilePage';
 import About from './Pages/About/About';
 import Contact from './Pages/Contact/Contact';
+import Agents from './Pages/Agents/Agents';
 
 function App() {
   const router = createBrowserRouter([
@@ -40,6 +41,10 @@ function App() {
         {
           path: "/contacts",
           element: <Contact/>
+        },
+        {
+          path: "/agents",
+          element: <Agents/>
         }
       ]
     },
