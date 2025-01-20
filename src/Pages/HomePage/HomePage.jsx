@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import SearchBar from "../../Components/SearchBar/SearchBar";
+import "../../styles.css"
 
 function HomePage() {
   return (
@@ -8,9 +9,10 @@ function HomePage() {
 
       <div className="bg-gray-900 text-white py-20">
         <div className="container mx-auto px-6 text-center">
-          <h1 className="text-4xl font-bold mb-2">
-            Find Your Dream Property with Urban Edge
-          </h1>
+        <h1 className="text-4xl font-bold mb-2 text-center relative">
+  <span className="shiny-text">Find Your Dream Property with Urban Edge</span>
+</h1>
+
           <p className="mb-6">
             Discover a wide range of properties across prime locations.
           </p>

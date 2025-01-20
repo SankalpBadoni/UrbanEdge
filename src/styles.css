@@ -1,0 +1,16 @@
+@keyframes shine {
+    0% {
+      background-position: -100%;
+    }
+    100% {
+      background-position: 100%;
+    }
+  }
+  
+  .shiny-text {
+    display: inline-block;
+    background: linear-gradient(to right, rgb(37, 99, 235), rgb(255, 255, 255), rgb(37, 99, 235)); 
+    background-clip: text;
+    color: transparent;
+    animation: shine 2s infinite linear;
+  }
