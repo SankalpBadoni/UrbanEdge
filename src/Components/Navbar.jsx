@@ -1,10 +1,10 @@
 import { Link } from "react-router-dom";
 
 function Navbar() {
-    const user = true;
+    const user = false;
     return (
         <nav className="flex justify-between items-center h-24 bg-white shadow-md px-8 py-4">
-            <div className="flex gap-7 items-center w-3/5 transition duration-150 ease-in-out">
+            <div className="flex gap-7 items-center transition duration-150 ease-in-out">
                 <Link to="/" className="flex items-center hover:scale-110 transition-transform">
                     <img src="assets/Logo.png" className="h-10 mr-2 " alt="Logo" />
                     <span className="hidden md:flex text-2xl text-gray-800 font-bold font-sans tracking-wide">UrbanEdge</span>
@@ -28,8 +28,21 @@ function Navbar() {
                             </Link>
                         </div>
                     </div>
-                ) : (<div className="pl-64 flex gap-5"> <Link className="bg-orange-400 p-2 hover:scale-105 transition-transform">Sign in</Link>
-                    <Link className="bg-orange-400 p-2 hover:scale-105 transition-transform">Log in</Link> </div>)}
+                ) : (<div className="pl-48 flex gap-5">
+                    <Link
+                      className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 hover:scale-105 transition-transform"
+                      to="/signin"
+                    >
+                      Sign in
+                    </Link>
+                    <Link
+                      className="bg-gray-800 text-white px-4 py-2 rounded-md hover:bg-gray-900 hover:scale-105 transition-transform"
+                      to="/login"
+                    >
+                      Log in
+                    </Link>
+                  </div>
+                  )}
                 <div>
                     <img src="assets/Menu.png" alt="Menu" className="block sm:hidden cursor-pointer" />
                 </div>

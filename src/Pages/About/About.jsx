@@ -2,18 +2,18 @@ import React from 'react';
 
 const About = () => {
   return (
-    <div className="bg-gray-100 py-16">
+    <div className="bg-gray-900 text-white py-16">
       <div className="max-w-4xl mx-auto px-6">
-        <h1 className="text-4xl font-bold text-gray-800 mb-4 text-center">
+        <h1 className="text-4xl font-bold text-white mb-4 text-center">
           About UrbanEdge
         </h1>
-        <p className="text-lg text-gray-600 mb-8 text-center">
+        <p className="text-lg text-white mb-8 text-center">
           Your Partner in Finding the Perfect Space
         </p>
         
-        <div className="text-gray-700 space-y-6 leading-relaxed">
+        <div className="text-white space-y-6 leading-relaxed">
           <p>
-            Welcome to <span className="font-semibold text-gray-800">UrbanEdge</span>, a place where your property dreams take shape. Our goal is simple: to bridge the gap between people and properties in the most seamless and efficient way possible. Whether you're buying, selling, or simply exploring the market, UrbanEdge is here to provide personalized, data-driven insights tailored to your needs.
+            Welcome to <span className="font-semibold text-white">UrbanEdge</span>, a place where your property dreams take shape. Our goal is simple: to bridge the gap between people and properties in the most seamless and efficient way possible. Whether you're buying, selling, or simply exploring the market, UrbanEdge is here to provide personalized, data-driven insights tailored to your needs.
           </p>
           
           <p>
@@ -21,10 +21,10 @@ const About = () => {
           </p>
           
           <p>
-            At <span className="font-semibold text-gray-800">UrbanEdge</span>, we utilize the latest technology to offer a comprehensive property search experience. Our interactive map features, virtual tours, and robust filtering options allow you to explore neighborhoods and properties at your convenience.
+            At <span className="font-semibold text-white">UrbanEdge</span>, we utilize the latest technology to offer a comprehensive property search experience. Our interactive map features, virtual tours, and robust filtering options allow you to explore neighborhoods and properties at your convenience.
           </p>
 
-          <h2 className="text-2xl font-bold text-gray-800 mt-8">
+          <h2 className="text-2xl font-bold text-white mt-8">
             Why Choose Us?
           </h2>
           <ul className="list-disc ml-6 mt-4 space-y-2">
