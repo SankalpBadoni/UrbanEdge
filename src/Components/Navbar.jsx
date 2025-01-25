@@ -30,10 +30,9 @@ function Navbar() {
                     </div>
                 ) : (<div className="pl-48 flex gap-5">
                     <Link
-                      className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 hover:scale-105 transition-transform"
-                      to="/signin"
+                    to="/signup" className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 hover:scale-105 transition-transform"  
                     >
-                      Sign in
+                      Sign up
                     </Link>
                     <Link
                       className="bg-gray-800 text-white px-4 py-2 rounded-md hover:bg-gray-900 hover:scale-105 transition-transform"

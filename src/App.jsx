@@ -10,6 +10,8 @@ import ProfilePage from './Pages/ProfilePage/ProfilePage';
 import About from './Pages/About/About';
 import Contact from './Pages/Contact/Contact';
 import Agents from './Pages/Agents/Agents';
+import SignUp from './Pages/SignUp/Signup';
+import Login from './Pages/Login/Login';
 
 function App() {
   const router = createBrowserRouter([
@@ -45,6 +47,14 @@ function App() {
         {
           path: "/agents",
           element: <Agents/>
+        },
+        {
+          path: "/signup",
+          element: <SignUp/>
+        },
+        {
+          path: "login",
+          element: <Login/>
         }
       ]
     },
