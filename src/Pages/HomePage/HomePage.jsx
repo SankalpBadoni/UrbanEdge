@@ -1,9 +1,14 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import SearchBar from "../../Components/SearchBar/SearchBar";
 import "../../styles.css"
+import { AuthContext } from "../../Context/AuthContext";
 
 function HomePage() {
+
+  const {currUser} = useContext(AuthContext)
+  console.log(currUser);
+  
   return (
     <div className="bg-gray-100">
 

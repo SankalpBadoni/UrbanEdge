@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
 
 function Navbar() {
-    const user = false;
+    const user = true;
     return (
-        <nav className="flex justify-between items-center h-24 bg-white shadow-md px-8 py-4">
+        <nav className="flex justify-between items-center h-24 bg-white shadow-sm px-8 py-4">
             <div className="flex gap-7 items-center transition duration-150 ease-in-out">
                 <Link to="/" className="flex items-center hover:scale-110 transition-transform">
                     <img src="assets/Logo.png" className="h-10 mr-2 " alt="Logo" />
