@@ -1,7 +1,10 @@
+import { useContext } from "react";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../Context/AuthContext";
 
 function Navbar() {
-    const user = true;
+
+    const {currUser} = useContext(AuthContext)
     return (
         <nav className="flex justify-between items-center h-24 bg-white shadow-sm px-8 py-4">
             <div className="flex gap-7 items-center transition duration-150 ease-in-out">
@@ -17,11 +20,11 @@ function Navbar() {
                 </div>
             </div>
             <div className="hidden sm:flex w-2/5 h-full gap-7 items-center">
-                {user ? (
+                {currUser ? (
                     <div className="flex gap-5 items-center">
-                        <div className="flex items-center gap-2">
-                            <img src="assets/profile.jpg" className="w-12 h-12 rounded-full border-2 border-indigo-500" alt="Profile" />
-                            <span className="font-semibold text-gray-700">Ashish Sharma</span>
+                        <div className="flex items-center gap-4">
+                            <img src={currUser.profilePicture || "assets/profile.jpg"} className="w-12 h-12 rounded-full border-2 border-indigo-500" alt="Profile" />
+                            <span className="font-semibold text-gray-700">{currUser?.user?.username}</span>
                             <Link className="bg-indigo-500 text-white px-4 py-2 rounded-lg hover:bg-indigo-600 transition-colors relative flex items-center hover:scale-105" to='/profile'>
                                 <div className="absolute bg-red-500 text-white border-md rounded-full flex items-center h-5 w-5 justify-center -top-2 -right-2">3</div>
                                 <span>Profile</span>
