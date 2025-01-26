@@ -1,7 +1,7 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import MyList from "../../Components/MyList/MyList";
 import Chat from "../../Components/Chat/Chat";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { AuthContext } from "../../Context/AuthContext";
 
@@ -27,9 +27,11 @@ function ProfilePage() {
         <div className="bg-white shadow-md rounded-lg p-6">
           <div className="flex justify-between items-center mb-6">
             <h1 className="text-2xl font-bold text-gray-800">User Information</h1>
+            <Link to="/profile/update" >
             <button className="bg-amber-400 text-white px-4 py-2 rounded-lg hover:bg-amber-500 transition">
               Update Profile
             </button>
+            </Link>
           </div>
           <div className="flex flex-col gap-4">
             <div className="flex items-center gap-3">
