@@ -1,25 +1,34 @@
 import React, { useContext, useState } from "react";
 import { AuthContext } from "../../Context/AuthContext";
+import apiRequest from "../../Data/ApiRequest";
+import { useNavigate } from "react-router-dom";
 
 function UpdateProfile() {
-    const { logout, currUser } = useContext(AuthContext);
+    const { logout, currUser, updateUser } = useContext(AuthContext);
     
-  const [username, setUsername] = useState("Ashish Sharma"); // Replace with the actual username
-  const [email, setEmail] = useState("ashish123@gmail.com"); // Replace with the actual email
-  const [profilePicture, setProfilePicture] = useState("assets/profile.jpg"); // Replace with the actual profile picture
+  const [error, setError] = useState(""); 
 
   const handleProfilePictureChange = (e) => {
     const file = e.target.files[0];
     if (file) {
       const imageUrl = URL.createObjectURL(file);
-      setProfilePicture(imageUrl); // Update the preview
+      setProfilePicture(imageUrl); 
     }
   };
 
-  const handleSaveChanges = (e) => {
+  const handleSaveChanges = async(e) => {
     e.preventDefault();
-    console.log("Updated Profile:", { username, email, profilePicture });
-    // Add the backend API call to update the profile here
+    const formData = new FormData(e.target)
+    const {username, email, password} = Object.fromEntries(formData)
+
+    try {
+        const res = await apiRequest.put(`/users/${currUser.user.id}`, {username, email, password})
+        updateUser(res.data)
+        
+    } catch (error) {
+        console.log(error)
+        setError(error.response.data.message)
+    }
   };
 
   const handleCancel = () => {
@@ -53,6 +62,7 @@ function UpdateProfile() {
                 <input
                   type="file"
                   id="profilePicture"
+                  name="profilePicture"
                   className="hidden"
                   accept="image/*"
                   onChange={handleProfilePictureChange}
@@ -72,8 +82,8 @@ function UpdateProfile() {
             <input
               type="text"
               id="username"
+              name ="username"
               defaultValue={currUser.user.username}
-              onChange={(e) => setUsername(e.target.value)}
               className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600"
               placeholder="Enter your username"
             />
@@ -90,10 +100,28 @@ function UpdateProfile() {
             <input
               type="email"
               id="email"
-              value={currUser.user.email}
-              onChange={(e) => setEmail(e.target.value)}
+              name="email"
+              defaultValue={currUser.user.email}
               className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600"
               placeholder="Enter your email"
+            />
+          </div>
+
+          <div>
+            <label
+              htmlFor="password"
+              className="block text-gray-700 font-medium mb-1"
+            >
+              Password
+            </label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              defaultValue=""
+              
+              className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600"
+              placeholder="Enter your password"
             />
           </div>
 
