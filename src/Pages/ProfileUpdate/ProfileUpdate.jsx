@@ -2,19 +2,22 @@ import React, { useContext, useState } from "react";
 import { AuthContext } from "../../Context/AuthContext";
 import apiRequest from "../../Data/ApiRequest";
 import { useNavigate } from "react-router-dom";
+import UploadWidget from "../../Components/uploadWidget/UploadWidget";
 
 function UpdateProfile() {
     const { logout, currUser, updateUser } = useContext(AuthContext);
     
   const [error, setError] = useState(""); 
+  const [profilePicture, setProfilePicture] = useState(currUser.user.profilePicture); 
+  const navigate = useNavigate()
 
-  const handleProfilePictureChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const imageUrl = URL.createObjectURL(file);
-      setProfilePicture(imageUrl); 
-    }
-  };
+  // const handleProfilePictureChange = (e) => {
+  //   const file = e.target.files[0];
+  //   if (file) {
+  //     const imageUrl = URL.createObjectURL(file);
+  //     setProfilePicture(imageUrl); 
+  //   }
+  // };
 
   const handleSaveChanges = async(e) => {
     e.preventDefault();
@@ -22,8 +25,9 @@ function UpdateProfile() {
     const {username, email, password} = Object.fromEntries(formData)
 
     try {
-        const res = await apiRequest.put(`/users/${currUser.user.id}`, {username, email, password})
+        const res = await apiRequest.put(`/users/${currUser.user.id || currUser.user._id}`, {username, email, password, profilePicture})
         updateUser(res.data)
+        navigate("/profile")
         
     } catch (error) {
         console.log(error)
@@ -51,24 +55,19 @@ function UpdateProfile() {
             </label>
             <div className="relative">
               <img
-                src={ currUser.user.profilePicture ||"assets/profile.jpg" }
+                src={ profilePicture || "assets/profile.jpg" }
                 alt="Profile"
                 className="w-24 h-24 rounded-full border-2 border-gray-300 object-cover"
               />
-              <label
-                htmlFor="profilePicture"
-                className="absolute bottom-0 right-0 bg-blue-600 text-white p-1 rounded-full cursor-pointer hover:bg-blue-700"
-              >
-                <input
-                  type="file"
-                  id="profilePicture"
-                  name="profilePicture"
-                  className="hidden"
-                  accept="image/*"
-                  onChange={handleProfilePictureChange}
-                />
-                ✎
-              </label>
+              <UploadWidget uwConfig={{
+                cloudName : "sankalpbadoni",
+                uploadPreset : "estate",
+                multiple: false,
+                maxImageFileSize: 20000000,
+                folder: "profilePictures"
+              }}
+              setProfilePicture = {setProfilePicture}
+              />
             </div>
           </div>
 

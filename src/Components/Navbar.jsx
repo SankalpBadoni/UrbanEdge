@@ -23,7 +23,7 @@ function Navbar() {
                 {currUser ? (
                     <div className="flex gap-5 items-center">
                         <div className="flex items-center gap-4">
-                            <img src={currUser.profilePicture || "assets/profile.jpg"} className="w-12 h-12 rounded-full border-2 border-indigo-500" alt="Profile" />
+                            <img src={currUser.user.profilePicture || "assets/profile.jpg"} className="w-12 h-12 rounded-full border-2 " alt="Profile" />
                             <span className="font-semibold text-gray-700">{currUser?.user?.username}</span>
                             <Link className="bg-indigo-500 text-white px-4 py-2 rounded-lg hover:bg-indigo-600 transition-colors relative flex items-center hover:scale-105" to='/profile'>
                                 <div className="absolute bg-red-500 text-white border-md rounded-full flex items-center h-5 w-5 justify-center -top-2 -right-2">3</div>
