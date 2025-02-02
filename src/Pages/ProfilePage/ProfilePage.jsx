@@ -56,9 +56,11 @@ function ProfilePage() {
         <div className="bg-white shadow-md rounded-lg p-5">
           <div className="flex justify-between items-center mb-6">
             <h1 className="text-2xl font-bold text-gray-800">My List</h1>
+            <Link to="/add">
             <button className="bg-amber-500 text-white px-4 py-2 rounded-lg hover:bg-amber-600 transition">
               Create New List
             </button>
+            </Link>
           </div>
           <MyList />
         </div>

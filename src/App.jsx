@@ -13,6 +13,7 @@ import Agents from './Pages/Agents/Agents';
 import SignUp from './Pages/SignUp/Signup';
 import Login from './Pages/Login/Login';
 import UpdateProfile from './Pages/ProfileUpdate/ProfileUpdate';
+import NewPostPage from './Pages/newPostPage/NewPostPage';
 
 function App() {
   const router = createBrowserRouter([
@@ -67,6 +68,10 @@ function App() {
         {
           path: "/profile/update",
           element: <UpdateProfile/>
+        } ,
+        {
+          path: "/add",
+          element: <NewPostPage/>
         } ,
       ]
     }
