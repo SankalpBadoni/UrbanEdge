@@ -14,6 +14,7 @@ import SignUp from './Pages/SignUp/Signup';
 import Login from './Pages/Login/Login';
 import UpdateProfile from './Pages/ProfileUpdate/ProfileUpdate';
 import NewPostPage from './Pages/newPostPage/NewPostPage';
+import { singlePageLoader } from './Data/loaders';
 
 function App() {
   const router = createBrowserRouter([
@@ -32,7 +33,8 @@ function App() {
         },
         {
           path:"/:id",
-          element: <SinglePage/>
+          element: <SinglePage/>,
+          loader: singlePageLoader,
         },
         
         {

@@ -2,8 +2,12 @@ import React from 'react'
 import { singlePostData, userData } from '../../Data/DummyData'
 import Slider from '../../Components/Slider/Slider'
 import Map from '../../Components/Map/Map'
+import { useLoaderData } from 'react-router-dom'
+import DOMPURIFY from "dompurify"
 
 function SinglePage() {
+    const {property} = useLoaderData();
+    console.log(property)
     return (
         <>
             <div className='flex h-full'>
@@ -12,20 +16,20 @@ function SinglePage() {
                     <div>
                         <div className='flex justify-between'>
                             <div className='flex flex-col gap-7'>
-                                <h1 className='text-2xl font-semibold'>{singlePostData.title}</h1>
+                                <h1 className='text-2xl font-semibold'>{property.title}</h1>
                                 <div className='flex items-center'>
                                     <img src="assets/loc.png" className='h-4' alt="" />
-                                    <span>{singlePostData.address}</span>
+                                    <span>{property.location.address}</span>
                                 </div>
-                                <h4 className='bg-orange-200 w-fit mb-4'>₹ {singlePostData.price} </h4>
+                                <h4 className='bg-yellow-200 w-fit mb-4 px-3 py-1 rounded-lg'>₹ {property.price} </h4>
                             </div>
                             <div className='flex flex-col items-center'>
-                                <img src={userData.img} className='w-10' alt="" />
-                                <span>{userData.name} </span>
+                                <img src={property.owner.profilePicture} className='w-10 h-5' alt="" />
+                                <span>{property.owner.username} </span>
                             </div>
                         </div>
-                        <div className='mb-4'>
-                            <p>{singlePostData.description}</p>
+                        <div className='mb-4' dangerouslySetInnerHTML={{__html:DOMPURIFY.sanitize(property.description)}}>
+                           
                         </div>
                         <div className='flex justify-between '>
                             <button className='flex border  border-black p-2 items-center gap-1'>
@@ -74,15 +78,15 @@ function SinglePage() {
                         <div className='flex justify-between mb-5'>
                             <div className='flex gap-1 bg-white'>
                                 <img src="assets/size.png" className='w-7' alt="" />
-                                <span>100 sqm</span>
+                                <span>{property.features.area} sqm</span>
                             </div>
                             <div className='flex gap-1 bg-white'>
                                 <img src="assets/bed.png" className='w-7' alt="" />
-                                <span>{singlePostData.bedRooms} Bedroom</span>
+                                <span>{property.features.bedrooms} Bedroom</span>
                             </div>
                             <div className='flex gap-1 bg-white'>
                                 <img src="assets/bath.png" className='w-7' alt="" />
-                                <span>{singlePostData.bathroom} Bathroom</span>
+                                <span>{property.features.bathrooms} Bathroom</span>
                             </div>
                         </div>
                     </div>
