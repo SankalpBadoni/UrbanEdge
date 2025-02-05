@@ -6,7 +6,7 @@ import UploadWidget from "../../Components/uploadWidget/UploadWidget";
 import apiRequest from "../../Data/ApiRequest";
 
 function NewPostPage() {
-  const [value, setValue] = useState("");
+  const [description, setDescription] = useState("");
   const [images, setImages] = useState([]);
   const [error, setError] = useState("");
   const navigate = useNavigate();
@@ -15,36 +15,37 @@ function NewPostPage() {
     e.preventDefault();
     const formData = new FormData(e.target);
     const inputs = Object.fromEntries(formData);
+    console.log(inputs)
 
     try {
-      const res = await apiRequest.post("/posts", {
-        postData: {
-          title: inputs.title,
-          price: parseInt(inputs.price),
+      const res = await apiRequest.post("/properties", {
+        title: inputs.title,
+        description: description,
+        type: inputs.type,
+        propertyType: inputs.propertyType,
+        price: parseInt(inputs.price),
+        location: {
           address: inputs.address,
           city: inputs.city,
-          bedroom: parseInt(inputs.bedroom),
-          bathroom: parseInt(inputs.bathroom),
-          type: inputs.type,
-          property: inputs.property,
-          latitude: inputs.latitude,
-          longitude: inputs.longitude,
-          images: images,
+          state: inputs.state,
+          coordinates: {
+            lat: parseFloat(inputs.latitude),
+            lng: parseFloat(inputs.longitude),
+          },
         },
-        postDetail: {
-          desc: value,
-          utilities: inputs.utilities,
-          pet: inputs.pet,
-          income: inputs.income,
-          size: parseInt(inputs.size),
-          school: parseInt(inputs.school),
-          bus: parseInt(inputs.bus),
-          restaurant: parseInt(inputs.restaurant),
+        features: {
+          bedrooms: parseInt(inputs.bedrooms),
+          bathrooms: parseInt(inputs.bathrooms),
+          area: parseInt(inputs.area),
+          parking: inputs.parking === "true",
         },
+        images: images,
+        owner: inputs.ownerId, // Ensure the user ID is passed correctly
       });
-      navigate("/" + res.data.id);
-    } catch (err) {
-      console.log(err);
+      console.log(res.data._id);
+      navigate(`/${res.data.propertyId}`);
+    } catch (error) {
+      console.log(error);
       setError("Failed to create post");
     }
   };
@@ -52,52 +53,40 @@ function NewPostPage() {
   return (
     <div className="flex flex-col md:flex-row p-6 gap-6">
       <div className="w-full md:w-2/3 bg-white shadow-lg rounded-lg p-6">
-        <h1 className="text-2xl font-semibold mb-4">Add New Post</h1>
+        <h1 className="text-2xl font-semibold mb-4">Add New Property</h1>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <input className="border p-2 rounded" name="title" placeholder="Title" required />
             <input className="border p-2 rounded" name="price" type="number" placeholder="Price" required />
             <input className="border p-2 rounded" name="address" placeholder="Address" required />
             <input className="border p-2 rounded" name="city" placeholder="City" required />
-            <input className="border p-2 rounded" name="bedroom" type="number" min={1} placeholder="Bedroom" required />
-            <input className="border p-2 rounded" name="bathroom" type="number" min={1} placeholder="Bathroom" required />
+            <input className="border p-2 rounded" name="state" placeholder="State" required />
             <input className="border p-2 rounded" name="latitude" placeholder="Latitude" required />
             <input className="border p-2 rounded" name="longitude" placeholder="Longitude" required />
-            <select name="type" className="border p-2 rounded">
+            <input className="border p-2 rounded" name="bedrooms" type="number" min={1} placeholder="Bedrooms" required />
+            <input className="border p-2 rounded" name="bathrooms" type="number" min={1} placeholder="Bathrooms" required />
+            <input className="border p-2 rounded" name="area" type="number" placeholder="Total Area (sqft)" required />
+            <select name="type" className="border p-2 rounded" required>
               <option value="rent">Rent</option>
               <option value="buy">Buy</option>
             </select>
-            <select name="property" className="border p-2 rounded">
-              <option value="apartment">Apartment</option>
-              <option value="house">House</option>
-              <option value="condo">Condo</option>
-              <option value="land">Land</option>
+            <select name="propertyType" className="border p-2 rounded" required>
+              <option value="Apartment">Apartment</option>
+              <option value="House">House</option>
+              <option value="Land">Land</option>
+            </select>
+            <select name="parking" className="border p-2 rounded" required>
+              <option value="true">Parking Available</option>
+              <option value="false">No Parking</option>
             </select>
           </div>
           
           <div>
             <label className="block mb-2">Description</label>
-            <ReactQuill theme="snow" value={value} onChange={setValue} />
+            <ReactQuill theme="snow" value={description} onChange={setDescription} />
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <select name="utilities" className="border p-2 rounded">
-              <option value="owner">Owner is responsible</option>
-              <option value="tenant">Tenant is responsible</option>
-              <option value="shared">Shared</option>
-            </select>
-            <select name="pet" className="border p-2 rounded">
-              <option value="allowed">Allowed</option>
-              <option value="not-allowed">Not Allowed</option>
-            </select>
-            <input className="border p-2 rounded" name="income" placeholder="Income Policy" />
-            <input className="border p-2 rounded" name="size" type="number" min={0} placeholder="Total Size (sqft)" />
-            <input className="border p-2 rounded" name="school" type="number" min={0} placeholder="School" />
-            <input className="border p-2 rounded" name="bus" type="number" min={0} placeholder="Bus" />
-            <input className="border p-2 rounded" name="restaurant" type="number" min={0} placeholder="Restaurant" />
-          </div>
-          
-          <button className="w-full bg-blue-600 text-white p-3 rounded hover:bg-blue-700">Add</button>
+          <button className="w-full bg-blue-600 text-white p-3 rounded hover:bg-blue-700">Add Property</button>
           {error && <span className="text-red-500">{error}</span>}
         </form>
       </div>
@@ -113,9 +102,10 @@ function NewPostPage() {
         <UploadWidget
           uwConfig={{
             multiple: true,
-            cloudName: "lamadev",
+            cloudName: "sankalpbadoni",
             uploadPreset: "estate",
-            folder: "posts",
+            maxImageFileSize: 20000000,
+            folder: "propertyImages"
           }}
           setState={setImages}
         />

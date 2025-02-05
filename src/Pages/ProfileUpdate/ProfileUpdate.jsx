@@ -8,7 +8,7 @@ function UpdateProfile() {
     const { logout, currUser, updateUser } = useContext(AuthContext);
     
   const [error, setError] = useState(""); 
-  const [profilePicture, setProfilePicture] = useState(currUser.user.profilePicture); 
+  const [profilePicture, setProfilePicture] = useState([]); 
   const navigate = useNavigate()
 
   // const handleProfilePictureChange = (e) => {
@@ -25,7 +25,7 @@ function UpdateProfile() {
     const {username, email, password} = Object.fromEntries(formData)
 
     try {
-        const res = await apiRequest.put(`/users/${currUser.user.id || currUser.user._id}`, {username, email, password, profilePicture})
+        const res = await apiRequest.put(`/users/${currUser.user.id || currUser.user._id}`, {username, email, password, profilePicture : profilePicture[0]})
         updateUser(res.data)
         navigate("/profile")
         
@@ -55,7 +55,7 @@ function UpdateProfile() {
             </label>
             <div className="relative">
               <img
-                src={ profilePicture || "assets/profile.jpg" }
+                src={ profilePicture[0] || currUser.user.profilePicture || "assets/profile.jpg" }
                 alt="Profile"
                 className="w-24 h-24 rounded-full border-2 border-gray-300 object-cover"
               />
@@ -66,7 +66,7 @@ function UpdateProfile() {
                 maxImageFileSize: 20000000,
                 folder: "profilePictures"
               }}
-              setProfilePicture = {setProfilePicture}
+              setState = {setProfilePicture}
               />
             </div>
           </div>
