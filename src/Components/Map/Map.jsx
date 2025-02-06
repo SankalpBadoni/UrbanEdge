@@ -10,9 +10,15 @@ function Map({items} ) {
       attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
       url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
     />
-    {items.map(item => (
-        <Pin item={item} key={item.id} />
-    ))}
+    {items.map(item => {
+        const { lat, lng } = item.location?.coordinates || {};
+        if (lat && lng) {
+          return (
+            <Pin key={item._id} item={item} />
+          );
+        }
+        return null; 
+      })}
   </MapContainer>
   )
 }
