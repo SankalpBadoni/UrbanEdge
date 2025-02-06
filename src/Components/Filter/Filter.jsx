@@ -4,7 +4,7 @@ export default function Filter() {
   return (
     <>
       <div className='flex flex-col gap-3'>
-        <h1 className='text-3xl'>Search results for</h1>
+        <h1 className='text-3xl'>Search results for <b>Delhi</b></h1>
         <div>
           <div className='flex flex-col '>
             <label htmlFor="City" className=''>Location</label>
