@@ -1,13 +1,34 @@
-import React from 'react'
+import React, { useContext, useState } from 'react'
 import { singlePostData, userData } from '../../Data/DummyData'
 import Slider from '../../Components/Slider/Slider'
 import Map from '../../Components/Map/Map'
-import { useLoaderData } from 'react-router-dom'
+import { useLoaderData, useNavigate } from 'react-router-dom'
 import DOMPURIFY from "dompurify"
+import { AuthContext } from '../../Context/AuthContext'
+import apiRequest from '../../Data/ApiRequest'
 
 function SinglePage() {
-    const {property} = useLoaderData();
+    const property = useLoaderData();
+    const {currUser} = useContext(AuthContext)
     console.log(property)
+    const [saved, setSaved] = useState(property.isSaved)
+     
+    const handleSave = async (params) => {
+        if(!currUser){
+            useNavigate("/login")
+        }
+        setSaved((prev)=>!prev)
+        try {
+            await apiRequest.post("/users/save", {propertyId: property.property._id},
+                
+            )
+            
+        } catch (error) {
+            console.log(error)
+            setSaved((prev)=>!prev)
+
+        }
+    }
     return (
         <>
             <div className='flex h-full'>
@@ -16,19 +37,19 @@ function SinglePage() {
                     <div>
                         <div className='flex justify-between'>
                             <div className='flex flex-col gap-7'>
-                                <h1 className='text-2xl font-semibold'>{property.title}</h1>
+                                <h1 className='text-2xl font-semibold'>{property.property.title}</h1>
                                 <div className='flex items-center'>
                                     <img src="assets/loc.png" className='h-4' alt="" />
-                                    <span>{property.location.address}</span>
+                                    <span>{property.property.location.address}</span>
                                 </div>
                                 <h4 className='bg-yellow-200 w-fit mb-4 px-3 py-1 rounded-lg'>₹ {property.price} </h4>
                             </div>
                             <div className='flex flex-col items-center'>
-                                <img src={property.owner.profilePicture} className='w-10 h-5' alt="" />
-                                <span>{property.owner.username} </span>
+                                <img src={property.property.owner.profilePicture} className='w-10 h-5' alt="" />
+                                <span>{property.property.owner.username} </span>
                             </div>
                         </div>
-                        <div className='mb-4' dangerouslySetInnerHTML={{__html:DOMPURIFY.sanitize(property.description)}}>
+                        <div className='mb-4' dangerouslySetInnerHTML={{__html:DOMPURIFY.sanitize(property.property.description)}}>
                            
                         </div>
                         <div className='flex justify-between '>
@@ -36,9 +57,9 @@ function SinglePage() {
                                 <img src="assets/chat.png" className='h-5' alt="" />
                                 <span>Send a Messgae</span>
                             </button>
-                            <button className='flex border border-black p-2 items-center gap-1'>
+                            <button className='flex border border-black p-2 items-center gap-1' onClick={handleSave}>
                                 <img src="assets/save.png" className='h-5' alt="" />
-                                <span>Save</span>
+                                <span>{saved? "Saved": "Save the place"}</span>
                             </button>
                         </div>
                     </div>
@@ -78,15 +99,15 @@ function SinglePage() {
                         <div className='flex justify-between mb-5'>
                             <div className='flex gap-1 bg-white'>
                                 <img src="assets/size.png" className='w-7' alt="" />
-                                <span>{property.features.area} sqm</span>
+                                <span>{property.property.features.area} sqm</span>
                             </div>
                             <div className='flex gap-1 bg-white'>
                                 <img src="assets/bed.png" className='w-7' alt="" />
-                                <span>{property.features.bedrooms} Bedroom</span>
+                                <span>{property.property.features.bedrooms} Bedroom</span>
                             </div>
                             <div className='flex gap-1 bg-white'>
                                 <img src="assets/bath.png" className='w-7' alt="" />
-                                <span>{property.features.bathrooms} Bathroom</span>
+                                <span>{property.property.features.bathrooms} Bathroom</span>
                             </div>
                         </div>
                     </div>
