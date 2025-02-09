@@ -12,21 +12,35 @@ function SinglePage() {
     const {currUser} = useContext(AuthContext)
     console.log(property)
     const [saved, setSaved] = useState(property.isSaved)
+    const navigate = useNavigate()
+    console.log(property.isSaved)
      
-    const handleSave = async (params) => {
+    const handleSave = async () => {
         if(!currUser){
-            useNavigate("/login")
+            navigate("/login")
+            return
         }
+        
         setSaved((prev)=>!prev)
         try {
-            await apiRequest.post("/users/save", {propertyId: property.property._id},
-                
-            )
+            // Debug logs
+            console.log('Property object:', property);
+            console.log('Property ID to save:', property.property._id);
             
+            const response = await apiRequest.post("/users/save", {
+                propertyId: property.property._id,
+                userId: currUser._id,
+            });
+            
+            
+            console.log('Save response:', response.data);
         } catch (error) {
-            console.log(error)
+            console.log('Error details:', {
+                response: error.response?.data,
+                status: error.response?.status,
+                headers: error.response?.headers
+            });
             setSaved((prev)=>!prev)
-
         }
     }
     return (
@@ -42,7 +56,7 @@ function SinglePage() {
                                     <img src="assets/loc.png" className='h-4' alt="" />
                                     <span>{property.property.location.address}</span>
                                 </div>
-                                <h4 className='bg-yellow-200 w-fit mb-4 px-3 py-1 rounded-lg'>₹ {property.price} </h4>
+                                <h4 className='bg-yellow-200 w-fit mb-4 px-3 py-1 rounded-lg'>₹ {property.property.price} </h4>
                             </div>
                             <div className='flex flex-col items-center'>
                                 <img src={property.property.owner.profilePicture} className='w-10 h-5' alt="" />
