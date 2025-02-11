@@ -39,7 +39,7 @@ function SearchBar() {
         </button>
       </div>
 
-      {/* Search Form */}
+    
       <div>
         <form className="flex flex-wrap gap-4 items-center border-2 border-gray-300 p-4 rounded-lg shadow-md">
           <input
@@ -68,7 +68,7 @@ function SearchBar() {
             onChange={handleChange}
           />
           <Link
-            to={`/list?type=${query.type}&city=${query.city}&minPrice=${query.minPrice}&maxPrice=${query.maxPrice}`}
+            to={`/list?type=${query.type}&city=${query.city}&minPrice=${query.minPrice}&maxPrice=${query.maxPrice || 100000000}`}
             className="flex-shrink-0 bg-teal-500 hover:bg-teal-600 text-white py-3 px-6 rounded-lg border-2 border-teal-500 hover:border-teal-600 transition-all duration-300"
             type="button"
           >
