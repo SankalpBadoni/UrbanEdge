@@ -14,7 +14,7 @@ import SignUp from './Pages/SignUp/Signup';
 import Login from './Pages/Login/Login';
 import UpdateProfile from './Pages/ProfileUpdate/ProfileUpdate';
 import NewPostPage from './Pages/newPostPage/NewPostPage';
-import { listPageLoader, singlePageLoader } from './Data/loaders';
+import { listPageLoader, profilePageLoader, singlePageLoader } from './Data/loaders';
 
 function App() {
   const router = createBrowserRouter([
@@ -66,7 +66,8 @@ function App() {
       children: [
         {
           path: "/profile",
-          element: <ProfilePage/>
+          element: <ProfilePage/>,
+          loader: profilePageLoader
         } ,
         {
           path: "/profile/update",

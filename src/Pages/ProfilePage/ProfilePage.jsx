@@ -1,13 +1,16 @@
-import React, { useContext, useEffect } from "react";
+import React, { Suspense, useContext, useEffect } from "react";
 import MyList from "../../Components/MyList/MyList";
 import Chat from "../../Components/Chat/Chat";
-import { Link, useNavigate } from "react-router-dom";
+import { Await, Link, useLoaderData, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { AuthContext } from "../../Context/AuthContext";
+import Card from "../../Components/Card/Card";
 
 function ProfilePage() {
   const { logout, currUser } = useContext(AuthContext);
   const navigate = useNavigate();
+  const data = useLoaderData()
+  console.log(data)
 
   const handleLogout = async () => {
     try {
@@ -62,13 +65,31 @@ function ProfilePage() {
             </button>
             </Link>
           </div>
-          <MyList />
+            <div>
+            <Suspense fallback={<p>Loading posts...</p>}>
+            <Await resolve={data.postResponse}>
+                {(postResponse) => 
+                  
+                  <MyList posts = {postResponse.data.userPosts} />
+                }
+            </Await>
+          </Suspense>
+
+            </div>
         </div>
 
         
         <div className="bg-white shadow-md rounded-lg p-7">
           <h1 className="text-2xl font-bold text-gray-800 mb-6">Saved List</h1>
-          <MyList />
+          <Suspense fallback={<p>Loading posts...</p>}>
+            <Await resolve={data.postResponse}>
+                {(postResponse) => 
+                  
+                  <MyList posts = {postResponse.data.savedPosts} />
+                }
+            </Await>
+          </Suspense>
+        
         </div>
       </div>
 
