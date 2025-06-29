@@ -1,130 +1,104 @@
-import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import React, { Suspense, useContext, useEffect } from "react";
+import MyList from "../../Components/MyList/MyList";
+import Chat from "../../Components/Chat/Chat";
+import { Await, Link, useLoaderData, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { AuthContext } from "../../Context/AuthContext";
+import Card from "../../Components/Card/Card";
 
-const ProfilePage = () => {
-  const [userData, setUserData] = useState(null);
-  const [userPosts, setUserPosts] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+function ProfilePage() {
+  const { logout, currUser } = useContext(AuthContext);
   const navigate = useNavigate();
+  const data = useLoaderData()
+  console.log(data)
 
-  useEffect(() => {
-    const fetchUserData = async () => {
-      const token = localStorage.getItem('token');
-      
-      if (!token) {
-        navigate('/login');
-        return;
-      }
-
-      try {
-        // Fetch user profile
-        const userResponse = await axios.get(
-          `${import.meta.env.VITE_API_URL}/api/users/profile`,
-          {
-            headers: {
-              'Authorization': `Bearer ${token}`,
-              'Content-Type': 'application/json'
-            }
-          }
-        );
-
-        // Fetch user posts
-        const postsResponse = await axios.get(
-          `${import.meta.env.VITE_API_URL}/api/users/profilePosts`,
-          {
-            headers: {
-              'Authorization': `Bearer ${token}`,
-              'Content-Type': 'application/json'
-            }
-          }
-        );
-
-        setUserData(userResponse.data);
-        setUserPosts(postsResponse.data);
-      } catch (err) {
-        console.error('Error fetching data:', err);
-        if (err.response?.status === 401) {
-          localStorage.removeItem('token');
-          navigate('/login');
-        }
-        setError(err.response?.data?.message || 'Failed to fetch user data');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchUserData();
-  }, [navigate]);
-
-  if (loading) {
-    return (
-      <div className="flex justify-center items-center min-h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="flex justify-center items-center min-h-screen">
-        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
-          <p>{error}</p>
-        </div>
-      </div>
-    );
-  }
+  const handleLogout = async () => {
+    try {
+      await axios.post(`${import.meta.env.VITE_API_URL}/auth/logout`);
+      logout();
+      navigate("/");
+    } catch (error) {
+      console.error("Logout error:", error);
+      logout();
+      navigate("/");
+    }
+  };
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      {/* User Profile Section */}
-      {userData && (
-        <div className="bg-white shadow rounded-lg p-6 mb-8">
-          <h1 className="text-2xl font-bold mb-4">Profile</h1>
-          <div className="space-y-4">
-            <p><span className="font-semibold">Name:</span> {userData.name}</p>
-            <p><span className="font-semibold">Email:</span> {userData.email}</p>
+    <div className="flex flex-col lg:flex-row gap-6 px-4 lg:px-8 py-6 bg-gray-50 min-h-screen">
+      <div className="lg:w-3/5 flex flex-col gap-8">
+        <div className="bg-white shadow-md rounded-lg p-6">
+          <div className="flex justify-between items-center mb-6">
+            <h1 className="text-2xl font-bold text-gray-800">User Information</h1>
+            <Link to="/profile/update" >
+            <button className="bg-amber-400 text-white px-4 py-2 rounded-lg hover:bg-amber-500 transition">
+              Update Profile
+            </button>
+            </Link>
+          </div>
+          <div className="flex flex-col gap-4">
+            <div className="flex items-center gap-3">
+              <span className="text-lg">Profile Picture:</span>
+              <img src={ currUser.user.profilePicture ||"assets/profile.jpg" }className="w-12 h-12 rounded-full border-2 border-gray-300" alt="Profile" />
+            </div>
+            <span className="text-lg">
+              Username: <b className="font-medium">{currUser?.user?.username}</b>
+            </span>
+            <span className="text-lg">
+              Email: <b className="font-medium">{currUser.user.email}</b>
+            </span>
             <button
-              onClick={() => navigate('/profile/update')}
-              className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+              onClick={handleLogout}
+              className="bg-indigo-500 text-white px-4 py-2 rounded-lg hover:bg-indigo-600 transition"
             >
-              Edit Profile
+              Logout
             </button>
           </div>
         </div>
-      )}
 
-      {/* User Posts Section */}
-      <div className="space-y-6">
-        <h2 className="text-xl font-bold">Your Posts</h2>
-        {userPosts.length === 0 ? (
-          <p className="text-gray-500">No posts yet</p>
-        ) : (
-          userPosts.map((post) => (
-            <div key={post._id} className="bg-white shadow rounded-lg p-6">
-              <h3 className="text-lg font-semibold mb-2">{post.title}</h3>
-              <p className="text-gray-600">{post.description}</p>
-              <div className="mt-4 flex gap-2">
-                <button
-                  onClick={() => navigate(`/post/edit/${post._id}`)}
-                  className="text-blue-500 hover:text-blue-600"
-                >
-                  Edit
-                </button>
-                <button
-                  onClick={() => handleDeletePost(post._id)}
-                  className="text-red-500 hover:text-red-600"
-                >
-                  Delete
-                </button>
-              </div>
+        <div className="bg-white shadow-md rounded-lg p-5">
+          <div className="flex justify-between items-center mb-6">
+            <h1 className="text-2xl font-bold text-gray-800">My List</h1>
+            <Link to="/add">
+            <button className="bg-amber-500 text-white px-4 py-2 rounded-lg hover:bg-amber-600 transition">
+              Create New List
+            </button>
+            </Link>
+          </div>
+            <div>
+            {/* <Suspense fallback={<p>Loading posts...</p>}>
+            <Await resolve={data.postResponse}>
+                {(postResponse) => 
+                  
+                  <MyList posts = {postResponse.data.userPosts} />
+                }
+            </Await>
+          </Suspense> */}
+
             </div>
-          ))
-        )}
+        </div>
+
+        
+        <div className="bg-white shadow-md rounded-lg p-7">
+          <h1 className="text-2xl font-bold text-gray-800 mb-6">Saved List</h1>
+          {/* <Suspense fallback={<p>Loading posts...</p>}>
+            <Await resolve={data.postResponse}>
+                {(postResponse) => 
+                  
+                  <MyList posts = {postResponse.data.savedPosts} />
+                }
+            </Await>
+          </Suspense> */}
+        
+        </div>
+      </div>
+
+     
+      <div className="lg:w-2/5 bg-white shadow-md rounded-lg p-6">
+        <Chat />
       </div>
     </div>
   );
-};
+}
 
 export default ProfilePage;
