@@ -14,7 +14,7 @@ function ProfilePage() {
 
   const handleLogout = async () => {
     try {
-      await axios.post("http://localhost:4000/api/auth/logout");
+      await axios.post("process.env.REACT_APP_API_URL/api/auth/logout");
       logout();
       navigate("/");
     } catch (error) {
