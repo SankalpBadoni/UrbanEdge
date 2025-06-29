@@ -81,14 +81,14 @@ function ProfilePage() {
         
         <div className="bg-white shadow-md rounded-lg p-7">
           <h1 className="text-2xl font-bold text-gray-800 mb-6">Saved List</h1>
-          <Suspense fallback={<p>Loading posts...</p>}>
+          {/* <Suspense fallback={<p>Loading posts...</p>}>
             <Await resolve={data.postResponse}>
                 {(postResponse) => 
                   
                   <MyList posts = {postResponse.data.savedPosts} />
                 }
             </Await>
-          </Suspense>
+          </Suspense> */}
         
         </div>
       </div>
