@@ -16,7 +16,7 @@ const SignUp = () => {
         const password = formData.get("password")
 
         try {
-            const res = await axios.post(`${import.meta.env.VITE_API_URL}/auth/register`,{
+            const res = await axios.post(`https://urbanedge-backend-q29n.onrender.com/auth/register`,{
                 username, email, password
             })
             navigate("/login")
