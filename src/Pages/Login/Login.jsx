@@ -27,6 +27,7 @@ const Login = () => {
         withCredentials: true,
       }
     );
+        localStorage.setItem('token', response.data.token);
       updateUser(res.data)
       
       navigate("/");
