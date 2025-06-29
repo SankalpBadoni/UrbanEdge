@@ -16,7 +16,7 @@ const SignUp = () => {
         const password = formData.get("password")
 
         try {
-            const res = await axios.post("process.env.REACT_APP_API_URL/auth/register",{
+            const res = await axios.post(`${process.env.REACT_APP_API_URL}/auth/register`,{
                 username, email, password
             })
             navigate("/login")
