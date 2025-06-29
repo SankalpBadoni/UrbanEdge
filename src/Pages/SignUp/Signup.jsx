@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom"; 
+import apiRequest from "../../Data/ApiRequest";
 
 const SignUp = () => {
 
@@ -16,7 +17,7 @@ const SignUp = () => {
         const password = formData.get("password")
 
         try {
-            const res = await axios.post(`https://urbanedge-backend-q29n.onrender.com/auth/register`,{
+            const res = await apiRequest.post("/auth/register", {
                 username, email, password
             })
             navigate("/login")
