@@ -66,14 +66,14 @@ function ProfilePage() {
             </Link>
           </div>
             <div>
-            <Suspense fallback={<p>Loading posts...</p>}>
+            {/* <Suspense fallback={<p>Loading posts...</p>}>
             <Await resolve={data.postResponse}>
                 {(postResponse) => 
                   
                   <MyList posts = {postResponse.data.userPosts} />
                 }
             </Await>
-          </Suspense>
+          </Suspense> */}
 
             </div>
         </div>
